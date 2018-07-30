@@ -31,6 +31,11 @@ mongoose.connect(dbConfig.url)
     process.exit();
 });
 
+
+//Require Notes routes 
+require('./routes/note.routes')(app);
+
+
 //listen for requests
 app.listen(3000,()=>{
     console.log("Server is listening to port 3000");
