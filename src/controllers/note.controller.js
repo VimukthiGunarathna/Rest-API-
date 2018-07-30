@@ -68,9 +68,42 @@ exports.findOne =(req,res)=>{
     });
 };
 
-
+//UPDATING NOTE
 // Update a note identified by the noteId in the request
 exports.update = (req, res) => {
+
+    //Validate Request
+    if(!req.body.content){
+        return res.status(400).send({
+            message: "Note content empty"
+        });
+    }
+
+
+
+    //Find note and update it with reques body
+    Note.findByIdAndUpdate(req.params.noteId,{
+        title:req.body.title || "Untitled Note",
+        content: req.body.content
+    },{new:true}) //new:true is used to return the modified document to the then() function instead of the original 
+    .then(note => {
+        if(!note){
+            return res.status(404).send({
+                message: "Note not found with Id "+ req.params.noteId
+            });
+        }
+        res.send(note);
+
+    }).catch(err => {
+        if(err.kind === "ObjectId"){
+            return res.status(404).send({
+                message: "Note not found with Id " + req.params.noteId 
+            });
+        }
+        return res.status(500).send({
+            message: "Error updating note with id "+ req.params.noteId
+        });
+    });
 
 };
 
