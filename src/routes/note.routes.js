@@ -12,9 +12,9 @@ module.exports =(app) => {
     app.get('/notes',notes.findAll);
 
     //Retrieve a single note with noteId
-    app.get('notes/:noteId',notes.findOne);
+    app.get('/notes/:noteId',notes.findAll);
 
-    //Update a with noteId
+    //Update a with noted
     app.put('/notes/:noteId',notes.update);
 
     //Delete a Note with noteId

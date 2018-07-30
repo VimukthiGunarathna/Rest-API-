@@ -48,6 +48,7 @@ exports.findAll =(req,res)=>{
 //FIND A SINGLE NOTE WITH NoteId
 exports.findOne =(req,res)=>{
 
+    //console.log("err");
     Note.findById(req.params.noteId)
     .then(note =>{
         if(!note){
