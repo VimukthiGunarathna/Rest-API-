@@ -32,14 +32,40 @@ exports.create = (req,res)=>{
 
 
 
-//Retrieve and return all notes from database.
+//RETRIEVE AND RETURN ALL NOTES FROM DB.
 exports.findAll =(req,res)=>{
-
+    Note.find()
+    .then(notes => {
+        res.send(notes);
+    }).catch(err =>{
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving notes"
+        });
+    });
 };
 
-//Find a single note with noteId
+
+//FIND A SINGLE NOTE WITH NoteId
 exports.findOne =(req,res)=>{
 
+    Note.findById(req.params.noteId)
+    .then(note =>{
+        if(!note){
+            return res.status(404).send({
+                message: "Note not found with id"+ req.params.noteId
+            });
+        }
+        res.send(note);
+    }).catch(err =>{
+        if(err.kind === 'ObjectId'){
+            return res.status(404).send({
+                message: "Note not found with Id" + req.params.noteId
+            });
+        }
+        return res.status(500).send({
+            message: "Error retrieving note with id" + req.params.noteId
+        });
+    });
 };
 
 
